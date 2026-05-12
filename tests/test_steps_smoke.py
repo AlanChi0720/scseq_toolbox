@@ -51,6 +51,8 @@ def test_smoke_standard_pipeline():
         },
         "pca": {"n_pcs": 10},
         "cluster": {"resolution": 0.5, "algorithm": "leiden"},
+        # Partial labels — cluster "0" gets a name, the rest fall back to cluster_<id>.
+        "annotate": {"labels": {"0": "T_cell"}},
     }
 
     for step in pipeline.active_steps():
@@ -74,6 +76,11 @@ def test_smoke_standard_pipeline():
     # markers step populated rank_genes_groups in uns
     assert "rank_genes_groups" in adata.uns
     assert "names" in adata.uns["rank_genes_groups"]
+    # annotate step populated cell_type with provided + fallback labels
+    assert "cell_type" in adata.obs.columns
+    cell_types = set(adata.obs["cell_type"].unique())
+    assert "T_cell" in cell_types
+    assert any(label.startswith("cluster_") for label in cell_types)
     # cell_cycle is disabled by default — no phase column expected
     assert "phase" not in adata.obs.columns
 

@@ -1,5 +1,6 @@
 from sc_toolbox.pipeline import Pipeline
 from sc_toolbox.steps import (
+    annotate,
     cell_cycle,
     cluster,
     doublet,
@@ -28,6 +29,7 @@ def standard_10x() -> Pipeline:
             neighbors.step,
             cluster.step,
             markers.step,
+            annotate.step,
             umap.step,
         ],
         enabled={
@@ -41,6 +43,7 @@ def standard_10x() -> Pipeline:
             "neighbors": True,
             "cluster": True,
             "markers": True,
+            "annotate": True,
             "umap": True,
         },
     )
