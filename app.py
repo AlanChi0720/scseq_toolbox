@@ -261,6 +261,16 @@ def screen_done() -> None:
         st.subheader("Top markers per cluster")
         st.pyplot(markers_dotplot(adata, n_genes=5))
 
+    if "phase" in adata.obs.columns:
+        phase_counts = adata.obs["phase"].value_counts().to_dict()
+        breakdown = ", ".join(f"{phase}: {n:,}" for phase, n in phase_counts.items())
+        st.caption(f"Cell cycle phases — {breakdown}")
+    elif adata.uns.get("sc_toolbox", {}).get("cell_cycle_skipped"):
+        st.caption(
+            "Cell cycle scoring was enabled but skipped: "
+            + adata.uns["sc_toolbox"]["cell_cycle_skipped"]
+        )
+
     params_payload = {
         "sc_toolbox_version": __version__,
         "timestamp": datetime.now(timezone.utc).isoformat(),

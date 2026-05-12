@@ -6,6 +6,7 @@ from sc_toolbox.pipeline import Step
 
 
 def _ensure_qc_metrics(adata, mito_prefix: str) -> None:
+    adata.uns.setdefault("sc_toolbox", {})["mito_prefix"] = mito_prefix
     if "n_genes_by_counts" in adata.obs.columns:
         return
     adata.var["mt"] = adata.var_names.str.startswith(mito_prefix)

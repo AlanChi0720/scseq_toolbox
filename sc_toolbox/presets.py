@@ -1,5 +1,6 @@
 from sc_toolbox.pipeline import Pipeline
 from sc_toolbox.steps import (
+    cell_cycle,
     cluster,
     doublet,
     hvg,
@@ -21,6 +22,7 @@ def standard_10x() -> Pipeline:
             qc.step,
             doublet.step,
             normalize.step,
+            cell_cycle.step,
             hvg.step,
             pca.step,
             neighbors.step,
@@ -33,6 +35,7 @@ def standard_10x() -> Pipeline:
             "qc": True,
             "doublet": False,
             "normalize": True,
+            "cell_cycle": False,
             "hvg": True,
             "pca": True,
             "neighbors": True,
