@@ -1,5 +1,6 @@
 import anndata as ad
 import matplotlib.pyplot as plt
+import scanpy as sc
 import seaborn as sns
 
 
@@ -23,6 +24,13 @@ def elbow_pca(adata: ad.AnnData, n_show: int = 50):
     ax.set_title("PCA elbow")
     fig.tight_layout()
     return fig
+
+
+def markers_dotplot(adata: ad.AnnData, n_genes: int = 5):
+    """Top-N markers per cluster as a dot plot. Returns the underlying mpl Figure."""
+    plt.close("all")
+    sc.pl.rank_genes_groups_dotplot(adata, n_genes=n_genes, show=False)
+    return plt.gcf()
 
 
 def umap_preview(adata: ad.AnnData, color_key: str, title: str = ""):

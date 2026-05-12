@@ -11,7 +11,7 @@ import streamlit as st
 
 from sc_toolbox import __version__
 from sc_toolbox.io_utils import load_uploaded
-from sc_toolbox.plots import umap_preview
+from sc_toolbox.plots import markers_dotplot, umap_preview
 from sc_toolbox.presets import PRESETS, standard_10x
 
 
@@ -93,6 +93,16 @@ def screen_config() -> None:
             "resolution": st.number_input(
                 "resolution (initial)", value=0.5, step=0.05, min_value=0.05, max_value=2.0
             )
+        }
+
+        st.markdown("**Markers**")
+        defaults["markers"] = {
+            "method": st.selectbox(
+                "method", ["wilcoxon", "t-test", "logreg"], index=0
+            ),
+            "n_genes": st.number_input(
+                "n_genes (per cluster)", value=50, step=10, min_value=5, max_value=500
+            ),
         }
 
     if st.button("Next →", type="primary"):
@@ -246,6 +256,10 @@ def screen_done() -> None:
 
     if "X_umap" in adata.obsm and "leiden" in adata.obs.columns:
         st.pyplot(umap_preview(adata, color_key="leiden", title="Final UMAP"))
+
+    if "rank_genes_groups" in adata.uns:
+        st.subheader("Top markers per cluster")
+        st.pyplot(markers_dotplot(adata, n_genes=5))
 
     params_payload = {
         "sc_toolbox_version": __version__,

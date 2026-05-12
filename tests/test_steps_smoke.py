@@ -64,3 +64,6 @@ def test_smoke_standard_pipeline():
     # preview cols should have been cleaned up by cluster.run
     for res in PREVIEW_RES:
         assert _preview_key(res) not in adata.obs.columns
+    # markers step populated rank_genes_groups in uns
+    assert "rank_genes_groups" in adata.uns
+    assert "names" in adata.uns["rank_genes_groups"]
