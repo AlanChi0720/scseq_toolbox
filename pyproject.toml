@@ -1,0 +1,38 @@
+[project]
+name = "sc-toolbox"
+version = "0.1.0"
+description = "Interactive scRNA-seq pipeline runner (Python scDrake-style)"
+requires-python = ">=3.11,<3.13"
+dependencies = [
+    "streamlit>=1.30",
+    "scanpy>=1.10",
+    "anndata>=0.10",
+    "leidenalg>=0.10",
+    "louvain>=0.8",
+    "python-igraph>=0.11",
+    "scrublet>=0.2.3",
+    "matplotlib>=3.8",
+    "seaborn>=0.13",
+    "pandas>=2.0",
+    "numpy>=1.26,<2.0",
+    "scipy>=1.11",
+    "h5py>=3.10",
+    "jinja2>=3.1",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.5",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["sc_toolbox"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"

@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+.pytest_cache/
+.ruff_cache/
+
+# uv
+.python-version
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Data / outputs
+*.h5ad
+*.h5
+*.tar.gz
+*.zip
+result.h5ad
+params.json
+report.html
