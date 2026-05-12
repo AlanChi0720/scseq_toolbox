@@ -4,6 +4,7 @@ from sc_toolbox.steps import (
     doublet,
     hvg,
     load,
+    markers,
     neighbors,
     normalize,
     pca,
@@ -24,6 +25,7 @@ def standard_10x() -> Pipeline:
             pca.step,
             neighbors.step,
             cluster.step,
+            markers.step,
             umap.step,
         ],
         enabled={
@@ -35,6 +37,7 @@ def standard_10x() -> Pipeline:
             "pca": True,
             "neighbors": True,
             "cluster": True,
+            "markers": True,
             "umap": True,
         },
     )
