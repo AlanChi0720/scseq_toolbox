@@ -248,14 +248,17 @@ def screen_done() -> None:
 
     st.success(f"Pipeline complete on sample `{s.sample_name}`")
 
+    color_key = "cell_type" if "cell_type" in adata.obs.columns else "leiden"
+    metric_label = "Cell types" if color_key == "cell_type" else "Clusters"
+
     c1, c2, c3 = st.columns(3)
     c1.metric("Cells", adata.n_obs)
     c2.metric("Genes", adata.n_vars)
-    if "leiden" in adata.obs.columns:
-        c3.metric("Clusters", int(adata.obs.leiden.nunique()))
+    if color_key in adata.obs.columns:
+        c3.metric(metric_label, int(adata.obs[color_key].nunique()))
 
-    if "X_umap" in adata.obsm and "leiden" in adata.obs.columns:
-        st.pyplot(umap_preview(adata, color_key="leiden", title="Final UMAP"))
+    if "X_umap" in adata.obsm and color_key in adata.obs.columns:
+        st.pyplot(umap_preview(adata, color_key=color_key, title="Final UMAP"))
 
     if "rank_genes_groups" in adata.uns:
         st.subheader("Top markers per cluster")
